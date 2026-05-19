@@ -1,4 +1,5 @@
 "use client";
+import { loginUser } from "@/services/authServices";
 import {
   Button,
   FieldError,
@@ -7,12 +8,22 @@ import {
   Label,
   TextField,
 } from "@heroui/react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 const LoginForm = () => {
     const { register, handleSubmit } = useForm();
-
-    const onSubmit = (data)=>{
-        console.log(data);
+    const router = useRouter();
+    const onSubmit = async(data)=>{
+        try{
+            const result = await loginUser(data);
+            if(result.success){
+                toast.success("Login successful! Welcome back.");
+            }
+            router.push("/");
+        }catch(error){
+            toast.error(error.message || "Failed to login");
+        }
     }
   return (
     <Form onSubmit={handleSubmit(onSubmit)} className="flex w-xs flex-col gap-4 font-inter">
