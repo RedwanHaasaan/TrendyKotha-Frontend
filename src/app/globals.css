@@ -6,6 +6,7 @@
   --tertiary-color: #2D1F16;
   --neutral-color: #F5EFE3;
   --ancient-color: #51443A;
+  --title-color: #6F4315;
   --font-inter: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-garamond: var(--font-cormorant-garamond), Georgia, Cambria, "Times New Roman", serif;
   --font-vibes: var(--font-great-vibes), cursive;
@@ -38,6 +39,9 @@ body {
 }
 .text-ancient {
   color: var(--ancient-color);
+}
+.text-title {
+  color: var(--title-color);
 }
 .bg-primary {
   background-color: var(--primary-color);

@@ -15,7 +15,7 @@ const Page = ()=>{
                 </div>
                 <RegisterForm/>
                 <div>
-                    <p className='text-sm font-inter text-ancient text-center'>Already in the circle?<Link href="/login" className='text-primary'> Enter here</Link></p>
+                    <p className='text-sm font-inter text-ancient text-center'>Already in the circle?<Link href="/login" className='text-primary underline'> Enter here</Link></p>
                 </div>
             </div>
        </div>
