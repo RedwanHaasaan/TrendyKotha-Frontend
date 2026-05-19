@@ -1,5 +1,6 @@
 import { Cormorant_Garamond, Inter, Great_Vibes } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "react-hot-toast";
 
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant-garamond",
@@ -31,7 +32,38 @@ export default function RootLayout({ children }) {
       lang="en"
       className={`${cormorant.variable} ${inter.variable} ${greatVibes.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+      {children}
+        <Toaster
+          position="top-right"
+          toastOptions={{
+            duration: 3000,
+
+            style: {
+              background: "#F5EFE3",
+              color: "#51443A",
+              border: "1px solid #C8A96B",
+              padding: "16px",
+              borderRadius: "16px",
+              fontFamily: "var(--font-inter)",
+            },
+
+            success: {
+              iconTheme: {
+                primary: "#8B5A2B",
+                secondary: "#F5EFE3",
+              },
+            },
+
+            error: {
+              iconTheme: {
+                primary: "#dc2626",
+                secondary: "#F5EFE3",
+              },
+            },
+          }}
+        />
+      </body>
     </html>
   );
 }

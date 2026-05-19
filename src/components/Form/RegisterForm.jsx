@@ -1,4 +1,5 @@
 "use client";
+import { registerUser } from "@/services/authServices";
 import {
   Button,
   FieldError,
@@ -7,14 +8,28 @@ import {
   Label,
   TextField,
 } from "@heroui/react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 const RegisterForm = () => {
-    const { register, handleSubmit } = useForm();
-    const onSubmit = (data)=>{
-        console.log(data);
+  const router = useRouter();
+  const { register, handleSubmit } = useForm();
+  const onSubmit = async (data) => {
+    try {
+      const result = await registerUser(data);
+      if (result.success) {
+        toast.success("Registration successful! Please log in.");
+      }
+      router.push("/login");
+    } catch (error) {
+      toast.error(error.message || "Something went wrong");
     }
+  };
   return (
-    <Form onSubmit={handleSubmit(onSubmit)} className="flex w-xs flex-col gap-4 font-inter">
+    <Form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex w-xs flex-col gap-4 font-inter"
+    >
       <TextField
         isRequired
         name="fullName"
@@ -27,7 +42,11 @@ const RegisterForm = () => {
         }}
       >
         <Label className="uppercase">Full Name</Label>
-        <Input placeholder="Redwan Hasan" {...register("fullName")} className="rounded-sm custom-input"/>
+        <Input
+          placeholder="Redwan Hasan"
+          {...register("name")}
+          className="rounded-sm custom-input"
+        />
         <FieldError />
       </TextField>
       <TextField
@@ -42,7 +61,11 @@ const RegisterForm = () => {
         }}
       >
         <Label className="uppercase">Email</Label>
-        <Input placeholder="redwan@example.com" {...register("email")} className="rounded-sm custom-input"/>
+        <Input
+          placeholder="redwan@example.com"
+          {...register("email")}
+          className="rounded-sm custom-input"
+        />
         <FieldError />
       </TextField>
       <TextField
@@ -64,11 +87,18 @@ const RegisterForm = () => {
         }}
       >
         <Label className="uppercase">Password</Label>
-        <Input placeholder="Enter your password" {...register("password")} className="rounded-sm custom-input"/>
+        <Input
+          placeholder="Enter your password"
+          {...register("password")}
+          className="rounded-sm custom-input"
+        />
         <FieldError />
       </TextField>
       <div className="flex gap-2">
-        <Button type="submit" className="w-full bg-primary text-white rounded-sm">
+        <Button
+          type="submit"
+          className="w-full bg-primary text-white rounded-sm"
+        >
           Register
         </Button>
       </div>
