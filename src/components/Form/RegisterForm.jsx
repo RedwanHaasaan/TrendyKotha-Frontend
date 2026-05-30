@@ -13,7 +13,12 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 const RegisterForm = () => {
   const router = useRouter();
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm();
   const onSubmit = async (data) => {
     try {
       const result = await registerUser(data);
@@ -22,6 +27,15 @@ const RegisterForm = () => {
       }
       router.push("/login");
     } catch (error) {
+      if (error.errors) {
+        Object.entries(error.errors).forEach(([field, message]) => {
+          setError(field, {
+            type: "server",
+            message,
+          });
+        });
+        return;
+      }
       toast.error(error.message || "Something went wrong");
     }
   };
@@ -32,22 +46,25 @@ const RegisterForm = () => {
     >
       <TextField
         isRequired
-        name="fullName"
+        name="username"
         type="text"
         validate={(value) => {
           if (value.trim() === "") {
-            return "Full name is required";
+            return "User name is required";
           }
           return null;
         }}
       >
-        <Label className="uppercase">Full Name</Label>
+        <Label className="uppercase">User Name</Label>
         <Input
-          placeholder="Redwan Hasan"
-          {...register("name")}
+          placeholder="redwanHasan#2424"
+          {...register("username")}
           className="rounded-sm custom-input"
         />
         <FieldError />
+        {errors.username && (
+          <p className="text-red-500 text-sm mt-1">{errors.username.message}</p>
+        )}
       </TextField>
       <TextField
         isRequired
@@ -67,6 +84,9 @@ const RegisterForm = () => {
           className="rounded-sm custom-input"
         />
         <FieldError />
+        {errors.email && (
+          <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+        )}
       </TextField>
       <TextField
         isRequired
@@ -93,6 +113,9 @@ const RegisterForm = () => {
           className="rounded-sm custom-input"
         />
         <FieldError />
+        {errors.password && (
+          <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+        )}
       </TextField>
       <div className="flex gap-2">
         <Button
