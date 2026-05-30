@@ -18,11 +18,10 @@ const LoginForm = () => {
         try{
             const result = await loginUser(data);
             if(result.success){
-                toast.success("Login successful! Welcome back.");
+                toast.success(`Login successful! Welcome back ${result.user.username}.`);
             }
             router.push("/");
         }catch(error){
-          console.log(error)
             toast.error(error|| "Failed to login");
         }
     }
