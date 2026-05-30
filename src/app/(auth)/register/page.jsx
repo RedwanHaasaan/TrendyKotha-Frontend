@@ -10,7 +10,7 @@ const Page = ()=>{
                     <Image src={Logo} alt="Trendy Kotha Logo" width={100} height={100} className="mx-auto"/>
                 </div>
                 <div className='text-center flex flex-col gap-2'>
-                    <h1 className='text-4xl font-garamond text-primary font-medium'>Join the Circle</h1>
+                    <h1 className='text-4xl font-garamond text-primary font-bold'>Join the Circle</h1>
                     <p className='text-base font-normal font-inter text-ancient'>Become a part of the digital manuscript.</p>
                 </div>
                 <RegisterForm/>
