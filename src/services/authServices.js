@@ -30,11 +30,10 @@ export const loginUser = async (credentials) => {
     });
     const data = await response.json();
     if (!response.ok) {
-      throw new Error(data.message || "Failed to login user");
+      throw data.message || "Failed to login user";
     }
     return data;
   } catch (error) {
-    console.error("Error logging in user:", error);
     throw error;
   }
 };

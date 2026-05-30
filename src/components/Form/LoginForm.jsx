@@ -22,7 +22,8 @@ const LoginForm = () => {
             }
             router.push("/");
         }catch(error){
-            toast.error(error.message || "Failed to login");
+          console.log(error)
+            toast.error(error|| "Failed to login");
         }
     }
   return (
