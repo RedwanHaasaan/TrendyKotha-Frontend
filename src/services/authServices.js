@@ -38,3 +38,40 @@ export const loginUser = async (credentials) => {
     throw error;
   }
 };
+
+export const getCurrentUser = async () => {
+  const response = await fetch(
+    `${API_URL}/api/v1/auth/user`,
+    {
+      credentials: "include",
+    }
+  );
+
+  if (!response.ok) {
+    return null;
+  }
+
+  const data = await response.json();
+
+  return data.user;
+};
+
+// services/authServices.js
+
+export const logoutUser = async () => {
+  const response = await fetch(
+    `${API_URL}/api/v1/auth/logout`,
+    {
+      method: "POST",
+      credentials: "include",
+    }
+  );
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Logout failed");
+  }
+
+  return data;
+};

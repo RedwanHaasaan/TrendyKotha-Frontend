@@ -1,6 +1,7 @@
 import { Cormorant_Garamond, Inter, Great_Vibes } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
+import { AuthProvider } from "@/context/AuthContext";
 
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant-garamond",
@@ -33,7 +34,9 @@ export default function RootLayout({ children }) {
       className={`${cormorant.variable} ${inter.variable} ${greatVibes.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-      {children}
+      <AuthProvider>
+        {children}
+      </AuthProvider>
         <Toaster
           position="top-right"
           toastOptions={{
