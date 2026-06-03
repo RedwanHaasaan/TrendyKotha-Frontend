@@ -42,8 +42,13 @@ export const AuthProvider = ({ children }) => {
       const result = await loginUser(credentials);
       if (result.success) {
         setUser(result.user);
-        toast.success(`Login successful! Welcome back ${result.user?.username || ''}.`);
-        router.push("/dashboard");
+        if(result.user?.isProfileCompleted){
+          router.replace("/dashboard");
+          toast.success(`Login successful! Welcome back ${result.user?.username || ''}.`);
+        } else {
+          router.replace("/dashboard/create-profile");
+          toast.success(`Login successful! Welcome ${result.user?.username || ''}. Please complete your profile.`);
+        }
       }
       return result;
     } catch (error) {
