@@ -10,13 +10,19 @@ import { useAuth } from "@/hooks/useAuth";
 export default function ProtectedRoute({ children }) {
   const router = useRouter();
 
-  const { loading, isAuthenticated } = useAuth();
+  const { loading, isAuthenticated ,user} = useAuth();
 
   useEffect(() => {
     if (!loading && !isAuthenticated) {
       router.replace("/login");
     }
-  }, [loading, isAuthenticated, router]);
+    if (!user?.isProfileCompleted) {
+      router.replace(
+        "/dashboard/create-profile"
+      );
+      
+    }
+  }, [loading, isAuthenticated, user,router]);
 
   if (loading) {
     return (

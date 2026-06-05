@@ -12,6 +12,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const router = useRouter();
   const [loading, setLoading] = useState(true);
+  const [authLoading, setAuthLoading] = useState(false);
 
   //load User
   const loadUser = async () => {
@@ -37,7 +38,7 @@ export const AuthProvider = ({ children }) => {
 
   //login user
   const login = async (credentials) => {
-    setLoading(true);
+    setAuthLoading(true);
     try {
       const result = await loginUser(credentials);
       if (result.success) {
@@ -56,35 +57,38 @@ export const AuthProvider = ({ children }) => {
       toast.error(error || "Failed to login");
       throw error;
     } finally {
-      setLoading(false);
+      setAuthLoading(false);
     }
   };
 
   //logout user
-  const logout = async () => {
-    setLoading(true);
-    try {
-      const data = await logoutUser();
+const logout = async () => {
+  setAuthLoading(true);
 
-      router.replace("/");
+  try {
+    const data = await logoutUser();
 
-      setTimeout(() => {
-        setUser(null);
-        setLoading(false);
-      }, 100);
+    setUser(null);
 
-      toast.success(data.message || "Logged out successfully");
-    } catch (error) {
-      setLoading(false);
-      toast.error(error.message || "Logout failed");
-    }
-  };
+    toast.success(
+      data.message || "Logged out successfully"
+    );
 
+    router.replace("/");
+  } catch (error) {
+    toast.error(
+      error.message || "Logout failed"
+    );
+  } finally {
+    setAuthLoading(false);
+  }
+};
   return (
     <AuthContext.Provider
       value={{
         user,
         loading,
+        authLoading,
         setUser,
         loadUser,
         login,

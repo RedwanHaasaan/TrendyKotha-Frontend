@@ -41,7 +41,7 @@ export const loginUser = async (credentials) => {
 
 export const getCurrentUser = async () => {
   const response = await fetch(
-    `${API_URL}/api/v1/auth/user`,
+    `${API_URL}/api/v1/profile/me`,
     {
       credentials: "include",
     }

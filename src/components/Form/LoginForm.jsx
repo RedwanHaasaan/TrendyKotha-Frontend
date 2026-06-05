@@ -11,7 +11,7 @@ import {
 import { useForm } from "react-hook-form";
 
 const LoginForm = () => {
-    const { login } = useAuth();
+    const { authLoading,login } = useAuth();
     const { register, handleSubmit } = useForm();
     const onSubmit = async (data) => {
         try {
@@ -42,8 +42,8 @@ const LoginForm = () => {
         <FieldError />
       </TextField>
       <div className="flex gap-2">
-        <Button type="submit" className="w-full bg-primary text-white rounded-sm">
-          Login
+        <Button type="submit" className="w-full bg-primary text-white rounded-sm" disabled={authLoading}>
+          {authLoading ? "Logging in..." : "Login"}
         </Button>
       </div>
     </Form>
