@@ -8,7 +8,7 @@ import Logo from "../../../public/logo.png";
 import { useAuth } from "@/hooks/useAuth";
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const { user, loading, authLoading, logout } = useAuth();
+  const { user, loading, logout, isLoggingOut } = useAuth();
   const handleLogout = async () => {
     await logout();
   };
@@ -81,10 +81,10 @@ export default function Navbar() {
 
                 <button
                   onClick={handleLogout}
-                  disabled={authLoading}
+                  disabled={isLoggingOut}
                   className="rounded-full border border-[#d3c4ae] px-4 py-2 text-sm text-[#5b4a3a] hover:bg-[#f0e4d4] cursor-pointer lg:text-base font-medium"
                 >
-                  {authLoading ? "Logging out..." : "Logout"}
+                  {isLoggingOut ? "Logging out..." : "Logout"}
                 </button>
               </>
             )}
@@ -149,10 +149,10 @@ export default function Navbar() {
 
                   <button
                     onClick={handleLogout}
-                    disabled={authLoading}
+                    disabled={isLoggingOut}
                     className="rounded-full bg-[#9c682f] py-2 text-center text-white"
                   >
-                    {authLoading ? "Logging out..." : "Logout"}
+                    {isLoggingOut ? "Logging out..." : "Logout"}
                   </button>
                 </div>
               )}

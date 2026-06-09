@@ -1,4 +1,5 @@
 "use client";
+import { createProfile } from "@/services/profile";
 import {
   Button,
   FieldError,
@@ -9,15 +10,41 @@ import {
   TextField,
 } from "@heroui/react";
 import { useForm } from "react-hook-form";
+import { useRouter } from 'next/navigation';
+import toast from "react-hot-toast";
+import { useAuth } from "@/hooks/useAuth";
 
 const ProfileForm = () => {
-    const { register, handleSubmit } = useForm();
-
-    const onSubmit = (data) => {
-        console.log("Profile Data:", data);
+  const { register, handleSubmit } = useForm();
+  const {loadUser} = useAuth();
+  const router = useRouter();
+  const onSubmit = async (data) => {
+    try {
+      const formData = new FormData();
+      formData.append("fullName", data.fullName);
+      formData.append("bio", data.bio);
+      formData.append("website", data.website || "");
+      formData.append("linkedin", data.linkedin || "");
+      formData.append("github", data.github || "");
+      formData.append("twitter", data.twitter || "");
+      if (data.profilepicture?.[0]) {
+        formData.append("profilepicture", data.profilepicture[0]);
+      }
+      const result = await createProfile(formData);
+      if (result.success) {
+        await loadUser();
+        router.replace("/dashboard");
+        toast.success(`Profile Create Successfully! Welcome to TrendyKotha`)
+      }
+    } catch (error) {
+      console.error("Error creating profile:", error);
     }
+  };
   return (
-    <Form onSubmit={handleSubmit(onSubmit)} className="flex w-xs flex-col gap-4 font-inter">
+    <Form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex w-xs flex-col gap-4 font-inter"
+    >
       <TextField isRequired name="fullName" type="text">
         <Label className="uppercase">Full Name</Label>
         <Input
@@ -67,7 +94,7 @@ const ProfileForm = () => {
             <Input
               placeholder="https://linkedin.com/in/username"
               className="rounded-sm custom-input"
-                {...register("linkedin")}
+              {...register("linkedin")}
             />
             <FieldError />
           </TextField>

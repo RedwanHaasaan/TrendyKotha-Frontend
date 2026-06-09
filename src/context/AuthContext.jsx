@@ -1,8 +1,7 @@
 "use client";
 
 import { createContext, useEffect, useState } from "react";
-
-import { getCurrentUser, loginUser, logoutUser } from "@/services/authServices";
+import { getCurrentUser, logoutUser } from "@/services/authServices";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
@@ -12,7 +11,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const router = useRouter();
   const [loading, setLoading] = useState(true);
-  const [authLoading, setAuthLoading] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   //load User
   const loadUser = async () => {
@@ -36,51 +35,25 @@ export const AuthProvider = ({ children }) => {
     initializeAuth();
   }, []);
 
-  //login user
-  const login = async (credentials) => {
-    setAuthLoading(true);
-    try {
-      const result = await loginUser(credentials);
-      if (result.success) {
-        setUser(result.user);
-        if(result.user?.isProfileCompleted){
-          router.replace("/dashboard");
-          toast.success(`Login successful! Welcome back ${result.user?.username || ''}.`);
-        } else {
-          router.replace("/dashboard/create-profile");
-          toast.success(`Login successful! Welcome ${result.user?.username || ''}. Please complete your profile.`);
-        }
-      }
-      return result;
-    } catch (error) {
-      setUser(null);
-      toast.error(error || "Failed to login");
-      throw error;
-    } finally {
-      setAuthLoading(false);
-    }
-  };
-
   //logout user
 const logout = async () => {
-  setAuthLoading(true);
-
+  setIsLoggingOut(true);
   try {
     const data = await logoutUser();
 
+    try {
+      await router.replace("/");
+    } catch (e) {
+      // ignore if router.replace isn't awaitable
+    }
+
     setUser(null);
 
-    toast.success(
-      data.message || "Logged out successfully"
-    );
-
-    router.replace("/");
+    toast.success(data.message || "Logged out successfully");
   } catch (error) {
-    toast.error(
-      error.message || "Logout failed"
-    );
+    toast.error(error.message || "Logout failed");
   } finally {
-    setAuthLoading(false);
+    setIsLoggingOut(false);
   }
 };
   return (
@@ -88,12 +61,9 @@ const logout = async () => {
       value={{
         user,
         loading,
-        authLoading,
-        setUser,
         loadUser,
-        login,
         logout,
-        isAuthenticated: !!user,
+        isLoggingOut,
       }}
     >
       {children}

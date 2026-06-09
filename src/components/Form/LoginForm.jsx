@@ -1,5 +1,9 @@
 "use client";
+import React from "react";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 import { useAuth } from "@/hooks/useAuth";
+import { loginUser } from "@/services/authServices";
 import {
   Button,
   FieldError,
@@ -11,14 +15,32 @@ import {
 import { useForm } from "react-hook-form";
 
 const LoginForm = () => {
-    const { authLoading,login } = useAuth();
+    const { loadUser } = useAuth();
     const { register, handleSubmit } = useForm();
+    const [localLoading, setLocalLoading] = React.useState(false);
+    const router = useRouter();
+
     const onSubmit = async (data) => {
-        try {
-            await login(data);
-        } catch (error) {
-            console.log(error);
+      setLocalLoading(true);
+      try {
+        const result = await loginUser(data);
+        if (result?.success) {
+          // refresh current user from server
+          await loadUser();
+          // navigate based on profile completion
+          if (result.user?.isProfileCompleted) {
+            router.replace("/dashboard");
+          } else {
+            router.replace("/dashboard/create-profile");
+          }
         }
+      } catch (error) {
+        console.log(error);
+        // show toast only here (loginService doesn't toast)
+        toast.error(error.message || error || "Login failed");
+      } finally {
+        setLocalLoading(false);
+      }
     };
 
   return (
@@ -42,8 +64,8 @@ const LoginForm = () => {
         <FieldError />
       </TextField>
       <div className="flex gap-2">
-        <Button type="submit" className="w-full bg-primary text-white rounded-sm" disabled={authLoading}>
-          {authLoading ? "Logging in..." : "Login"}
+        <Button type="submit" className="w-full bg-primary text-white rounded-sm" disabled={localLoading}>
+          {localLoading ? "Logging in..." : "Login"}
         </Button>
       </div>
     </Form>

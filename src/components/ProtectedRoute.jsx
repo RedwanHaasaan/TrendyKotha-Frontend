@@ -10,10 +10,15 @@ import toast from "react-hot-toast";
 export default function ProtectedRoute({ children }) {
   const router = useRouter();
   const hasShownToast = useRef(false);
-  const { loading, isAuthenticated, user } = useAuth();
+  const { loading, user, isLoggingOut } = useAuth();
+  const isAuthenticated = !!user;
 
   useEffect(() => {
     if (!loading && !isAuthenticated) {
+      // If we're in the middle of an intentional logout, suppress
+      // the "must be logged in" toast because logout will show its own.
+      if (isLoggingOut) return;
+
       if (!hasShownToast.current) {
         toast.error("You must be logged in to access this page.");
 
