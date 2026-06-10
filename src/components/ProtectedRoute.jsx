@@ -10,24 +10,32 @@ import toast from "react-hot-toast";
 export default function ProtectedRoute({ children }) {
   const router = useRouter();
   const hasShownToast = useRef(false);
+  const wasAuthenticatedRef = useRef(false);
   const { loading, user, isLoggingOut } = useAuth();
   const isAuthenticated = !!user;
 
   useEffect(() => {
     if (!loading && !isAuthenticated) {
-      // If we're in the middle of an intentional logout, suppress
-      // the "must be logged in" toast because logout will show its own.
-      if (isLoggingOut) return;
+      if (isLoggingOut || wasAuthenticatedRef.current) {
+        wasAuthenticatedRef.current = false; // Reset for next time
+        return;
+      }
 
       if (!hasShownToast.current) {
         toast.error("You must be logged in to access this page.");
-
         hasShownToast.current = true;
       }
 
       router.replace("/login");
       return;
     }
+    
+    // Track if user is authenticated
+    if (isAuthenticated) {
+      wasAuthenticatedRef.current = true;
+      hasShownToast.current = false; // Reset toast flag when user logs back in
+    }
+    
     if (!loading && isAuthenticated && !user?.isProfileCompleted) {
       if (!hasShownToast.current) {
         toast.error("Please complete your profile to continue.");
@@ -38,7 +46,7 @@ export default function ProtectedRoute({ children }) {
       router.replace("/dashboard/create-profile");
       return;
     }
-  }, [loading, isAuthenticated, user, router]);
+  }, [loading, isAuthenticated, user, router, isLoggingOut]);
 
   if (!isAuthenticated) {
     return null;
