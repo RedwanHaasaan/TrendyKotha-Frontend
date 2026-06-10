@@ -12,7 +12,6 @@ export const createProfile = async (profileData) => {
         }
         return await response.json();
     } catch (error) {
-        console.error("Error creating profile:", error);
         throw error;
     }
 }

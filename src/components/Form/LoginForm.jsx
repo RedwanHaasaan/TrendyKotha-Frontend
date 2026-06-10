@@ -35,7 +35,6 @@ const LoginForm = () => {
           }
         }
       } catch (error) {
-        console.log(error);
         // show toast only here (loginService doesn't toast)
         toast.error(error.message || error || "Login failed");
       } finally {
