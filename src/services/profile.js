@@ -15,3 +15,17 @@ export const createProfile = async (profileData) => {
         throw error;
     }
 }
+
+export const getProfile = async(userID)=>{
+    try{
+        const response = await fetch(`${API_URL}/api/v1/profile/get/${userID}`, {
+            credentials: "include",
+        });
+        if (!response.ok) {
+            throw new Error("Failed to fetch profile");
+        }
+        return await response.json();
+    } catch (error) {
+        throw error;
+    }
+}
