@@ -75,3 +75,39 @@ export const logoutUser = async () => {
 
   return data;
 };
+
+export const changePassword = async (passwords) => {
+  try {
+    const response = await fetch(`${API_URL}/api/v1/auth/change-password`, {
+      method: "PUT",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(passwords),
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      throw data;
+    }
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const deleteAccount = async () => {
+  try {
+    const response = await fetch(`${API_URL}/api/v1/auth/delete-account`, {
+      method: "DELETE",
+      credentials: "include",
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      throw data;
+    }
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
