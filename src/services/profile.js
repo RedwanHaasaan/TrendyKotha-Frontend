@@ -16,6 +16,22 @@ export const createProfile = async (profileData) => {
     }
 }
 
+export const updateProfile = async (profileData) => {
+    try{
+        const response = await fetch(`${API_URL}/api/v1/profile/update`, {
+            method: "PUT",
+            credentials: "include",
+            body: profileData
+        });
+        if (!response.ok) {
+            throw new Error("Failed to update profile");
+        }
+        return await response.json();
+    } catch (error) {
+        throw error;
+    }
+}
+
 export const getProfile = async(userID)=>{
     try{
         const response = await fetch(`${API_URL}/api/v1/profile/get/${userID}`, {
