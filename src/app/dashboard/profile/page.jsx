@@ -4,13 +4,13 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import Image from "next/image";
 import Link from "next/link";
-import { 
-  Mail, 
-  Globe, 
-  Calendar, 
-  FileText, 
-  Bookmark, 
-  Edit3, 
+import {
+  Mail,
+  Globe,
+  Calendar,
+  FileText,
+  Bookmark,
+  Edit3,
   Clock,
   ArrowRight,
   User,
@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { getProfile } from "@/services/profile";
 import { LogoGithub, LogoLinkedin } from "@gravity-ui/icons";
+import DashboardHeader from "@/components/dashboard/DashboardHeader";
 
 export default function ProfilePage() {
   const { user } = useAuth();
@@ -65,18 +66,10 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-[#fdfbf8] pb-12">
       {/* Header */}
-      <div className="bg-linear-to-r from-[#f8f3eb] to-[#f0e4d4] border-b border-[#e5ddd0] px-6 py-8 md:px-8">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <div>
-            <h1 className="text-3xl md:text-4xl font-bold text-[#4d3b2a] font-serif tracking-tight">
-              My Profile
-            </h1>
-            <p className="text-[#5b4a3a] mt-1 text-sm md:text-base">
-              Manage your personal information, links, and view account stats
-            </p>
-          </div>
-        </div>
-      </div>
+      <DashboardHeader
+        title="Profile"
+        description="Manage your profile information and settings"
+      />
 
       {/* Content Container */}
       <div className="max-w-6xl mx-auto px-6 py-8 md:px-8">
@@ -102,10 +95,10 @@ export default function ProfilePage() {
         ) : (
           /* Active Profile Layout */
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-            
+
             {/* Left/Main Column: Profile Info Card */}
             <div className="lg:col-span-2 bg-white rounded-2xl border border-[#e5ddd0] overflow-hidden shadow-xs hover:shadow-md transition-shadow duration-300">
-              
+
               {/* Cover Banner */}
               <div className="h-40 bg-linear-to-r from-[#9c682f] via-[#a16a2f] to-[#7f4f1d] relative overflow-hidden">
                 {/* Decorative overlay circles for premium look */}
@@ -115,7 +108,7 @@ export default function ProfilePage() {
 
               {/* Profile Main Body */}
               <div className="relative px-6 pb-8 md:px-8">
-                
+
                 {/* Profile Picture */}
                 <div className="flex flex-col md:flex-row gap-6 -mt-16 mb-6 items-start md:items-end">
                   <div className="relative group shrink-0">
@@ -166,7 +159,7 @@ export default function ProfilePage() {
                 {/* Contact & Social Section */}
                 <div className="border-t border-[#e5ddd0]/70 pt-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    
+
                     {/* Contact Info */}
                     <div>
                       <h4 className="text-sm font-semibold uppercase tracking-wider text-[#4d3b2a]/60 mb-3">
@@ -202,7 +195,7 @@ export default function ProfilePage() {
                             <Globe size={18} />
                           </a>
                         ) : null}
-                        
+
                         {profile.links?.github ? (
                           <a
                             href={profile.links.github}
@@ -253,14 +246,14 @@ export default function ProfilePage() {
 
             {/* Right Column: Stats & Meta Cards */}
             <div className="space-y-6">
-              
+
               {/* Activity Stats Card */}
               <div className="bg-white rounded-2xl border border-[#e5ddd0] p-6 shadow-xs hover:shadow-md transition-shadow duration-300">
                 <h3 className="text-lg font-bold text-[#4d3b2a] font-serif mb-4 pb-2 border-b border-[#e5ddd0]/60 flex items-center gap-2">
                   <User size={18} className="text-[#9c682f]" />
                   Activity Statistics
                 </h3>
-                
+
                 <div className="grid grid-cols-2 gap-4">
                   {/* Total Posts */}
                   <div className="bg-[#fdfbf8] p-4 rounded-xl border border-[#e5ddd0]/50 flex flex-col items-center justify-center text-center">

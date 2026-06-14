@@ -25,6 +25,7 @@ import {
   FieldError,
 } from "@heroui/react";
 import ConfirmModal from "@/components/Modals/ConfirmModal";
+import DashboardHeader from "@/components/dashboard/DashboardHeader";
 
 export default function SettingsPage() {
   const { user, logout } = useAuth();
@@ -54,7 +55,7 @@ export default function SettingsPage() {
   const [prefWeekly, setPrefWeekly] = useState(false);
 
   // Modal state for delete account
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);  
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const onSubmit = async (data) => {
     if (data.newPassword !== data.confirmPassword) {
@@ -102,14 +103,10 @@ export default function SettingsPage() {
   return (
     <div className="min-h-screen bg-[#fdfbf8] pb-12">
       {/* Header */}
-      <div className="bg-linear-to-r from-[#f8f3eb] to-[#f0e4d4] border-b border-[#e5ddd0] px-6 py-8 md:px-8">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-3xl md:text-4xl font-bold text-[#4d3b2a] font-serif tracking-tight">Settings</h1>
-          <p className="text-[#5b4a3a] mt-1 text-sm md:text-base">
-            Manage your credentials, security settings, notifications, and preferences.
-          </p>
-        </div>
-      </div>
+      <DashboardHeader
+        title="Settings"
+        description="Manage your account, security, notifications, and preferences."
+      />
 
       {/* Content Container */}
       <div className="max-w-4xl mx-auto px-6 py-8 md:px-8 space-y-8">

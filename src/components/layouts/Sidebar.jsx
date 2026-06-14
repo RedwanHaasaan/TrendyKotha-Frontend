@@ -12,6 +12,8 @@ import {
   ChevronLeft,
   ChevronRight,
   X,
+  NotebookPen,
+  SquarePen,
 } from "lucide-react";
 import Logo from "../../../public/logo.png";
 import Image from "next/image"; 
@@ -41,9 +43,19 @@ export default function Sidebar({
       href: "/dashboard/profile",
     },
     {
-      name: "My Blogs",
+      name: "Write Blog",
+      icon: SquarePen,
+      href: "/dashboard/write-blog",
+    },
+    {
+      name: "Drafts",
+      icon: NotebookPen,
+      href: "/dashboard/drafts",
+    },
+    {
+      name: "Manage Blogs",
       icon: FileText,
-      href: "/dashboard/blogs",
+      href: "/dashboard/manage-blogs",
     },
     {
       name: "Settings",
