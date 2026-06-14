@@ -34,6 +34,7 @@ export default function ConfirmModal({
   cancelText = "Cancel",
   confirmColor = "danger",
   isLoading = false,
+  children,
 }) {
   return (
     <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
@@ -53,7 +54,11 @@ export default function ConfirmModal({
             </Modal.Header>
 
             <Modal.Body>
-              <p className="text-default-600">{description}</p>
+              {children ? (
+                children
+              ) : (
+                <p className="text-default-600">{description}</p>
+              )}
             </Modal.Body>
 
             <Modal.Footer>

@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
-import { changePassword, deleteAccount } from "@/services/authServices";
+import { changePassword } from "@/services/authServices";
+import { requestDeleteAccount } from "@/services/account";
 import { useForm, Controller } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -56,6 +57,7 @@ export default function SettingsPage() {
 
   // Modal state for delete account
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [deletePassword, setDeletePassword] = useState("");
 
   const onSubmit = async (data) => {
     if (data.newPassword !== data.confirmPassword) {
@@ -81,22 +83,29 @@ export default function SettingsPage() {
   };
 
   const handleDeleteAccount = async () => {
+    if (!deletePassword) {
+      toast.error("Please enter your password to confirm deletion.");
+      return;
+    }
+
     setIsDeleting(true);
     try {
-      const result = await deleteAccount();
+      const result = await requestDeleteAccount(deletePassword);
       if (result.success) {
-        toast.success(result.message || "Account deleted successfully.");
+        toast.success(result.message || "Account scheduled for deletion. You have 14 days to restore it by logging in.");
+        // Frontend should log the user out
         await logout();
         router.replace("/");
       } else {
-        toast.error(result.message || "Failed to delete account.");
+        toast.error(result.message || "Failed to schedule account deletion.");
       }
     } catch (err) {
-      console.error("Delete account error:", err);
-      toast.error("Error deleting account.");
+      console.error("Request delete account error:", err);
+      toast.error(err?.message || "Error scheduling account deletion.");
     } finally {
       setIsDeleting(false);
       setIsDeleteModalOpen(false);
+      setDeletePassword("");
     }
   };
 
@@ -323,11 +332,27 @@ export default function SettingsPage() {
         onOpenChange={setIsDeleteModalOpen}
         onConfirm={handleDeleteAccount}
         title="Delete Account"
-        description="This action cannot be undone. All your account data will be permanently deleted."
+        description="This action will schedule your account for permanent deletion after a 14-day recovery period. You can cancel by logging in within 14 days."
         confirmText="Delete Account"
         confirmColor="danger"
         isLoading={isDeleting}
-      />
+      >
+        <div className="space-y-4">
+          <p className="text-sm text-red-700/90">
+            This action will not delete your account immediately. Your account will be placed in a 14-day quarantine. If you log in within that period, the deletion will be cancelled automatically.
+          </p>
+          <div>
+            <label className="block text-xs font-semibold uppercase tracking-wider text-[#4d3b2a]/60 mb-2">Confirm Password</label>
+            <input
+              type="password"
+              value={deletePassword}
+              onChange={(e) => setDeletePassword(e.target.value)}
+              placeholder="Enter your password"
+              className="w-full p-3 rounded-lg border"
+            />
+          </div>
+        </div>
+      </ConfirmModal>
     </div>
   );
 }
