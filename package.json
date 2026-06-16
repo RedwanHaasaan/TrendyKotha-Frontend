@@ -9,6 +9,8 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@editorjs/editorjs": "^2.31.6",
+    "@editorjs/paragraph": "^2.11.7",
     "@gravity-ui/icons": "^2.18.0",
     "@heroui/react": "^3.0.5",
     "@heroui/styles": "^3.0.5",

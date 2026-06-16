@@ -60,3 +60,12 @@ body {
   border-color: #8B5A2B;
   box-shadow: 0 0 0 4px rgba(139, 90, 43, 0.12);
 }
+
+.ce-block__content,
+.ce-toolbar__content {
+  max-width: 100%;
+}
+
+.codex-editor__redactor{
+  padding-bottom: 30px !important;
+}

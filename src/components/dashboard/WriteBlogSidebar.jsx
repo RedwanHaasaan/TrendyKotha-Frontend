@@ -2,12 +2,13 @@
 import Image from 'next/image';
 import { useState, useRef } from 'react';
 
-export default function WriteBlogSidebar() {
+export default function WriteBlogSidebar({handlePublish}) {
     const [category, setCategory] = useState('Essays');
     const [tagInput, setTagInput] = useState('');
-    const [tags, setTags] = useState(['Persian Art', 'Calligraphy']);
+    const [tags, setTags] = useState([]);
     const [cover, setCover] = useState(null);
     const fileRef = useRef(null);
+
 
     function addTagFromInput() {
         const raw = tagInput.trim();
@@ -28,55 +29,59 @@ export default function WriteBlogSidebar() {
     }
 
     return (
-        <div style={{ background: '#fff', borderRadius: 8, padding: 18, boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
-            <h3 style={{ margin: 0, marginBottom: 12 }}>Blog Settings</h3>
+        <div className="bg-white rounded-lg p-[18px] shadow-sm">
+            <h3 className="m-0 mb-3">Blog Settings</h3>
 
-            <div style={{ marginBottom: 12 }}>
-                <label style={{ display: 'block', fontSize: 12, color: '#666', marginBottom: 6 }}>CATEGORY</label>
-                <select value={category} onChange={(e) => setCategory(e.target.value)} style={{ width: '100%', padding: '8px 10px', borderRadius: 6 }}>
-                    <option>Essays</option>
+            <div className="mb-3">
+                <label className="block text-xs text-gray-500 mb-1.5">CATEGORY</label>
+                <select value={category} onChange={(e) => setCategory(e.target.value)} className="w-full py-2 px-2.5 rounded-md border border-gray-200">
                     <option>News</option>
-                    <option>Opinion</option>
                     <option>Tutorial</option>
+                    <option>Opinion</option>
+                    <option>Review</option>
+                    <option>Programming</option>
+                    <option>AI</option>
+                    <option>Cybersecurity</option>
+                    <option>Startups</option>
                 </select>
             </div>
 
-            <div style={{ marginBottom: 12 }}>
-                <label style={{ display: 'block', fontSize: 12, color: '#666', marginBottom: 6 }}>TAGS</label>
-                <div style={{ display: 'flex', gap: 8, marginBottom: 8, flexWrap: 'wrap' }}>
+            <div className="mb-3">
+                <label className="block text-xs text-gray-500 mb-1.5">TAGS</label>
+                <div className="flex gap-2 mb-2 flex-wrap">
                     {tags.map(t => (
-                        <button key={t} onClick={() => removeTag(t)} style={{ background: '#f3e9df', border: 'none', padding: '6px 10px', borderRadius: 20, cursor: 'pointer' }}>{t} ✕</button>
+                        <button key={t} onClick={() => removeTag(t)} className="bg-[#f3e9df] border-none py-1.5 px-2.5 rounded-full cursor-pointer">{t} ✕</button>
                     ))}
                 </div>
 
-                <div style={{ display: 'flex', gap: 8 }}>
+                <div className="flex gap-2">
                     <input
                         placeholder="Add tags separated by commas"
                         value={tagInput}
                         onChange={(e) => setTagInput(e.target.value)}
                         onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addTagFromInput(); } }}
-                        style={{ flex: 1, padding: '8px 10px', borderRadius: 6, border: '1px solid #e6e6e6' }}
+                        className="flex-1 py-2 px-2.5 rounded-md border border-gray-200"
                     />
-                    <button onClick={addTagFromInput} style={{ padding: '8px 12px', borderRadius: 6 }}>Add</button>
+                    <button onClick={addTagFromInput} className="py-2 px-3 rounded-md bg-primary text-white cursor-pointer">Add</button>
                 </div>
             </div>
 
-            <div style={{ marginBottom: 14 }}>
-                <label style={{ display: 'block', fontSize: 12, color: '#666', marginBottom: 6 }}>FEATURED COVER</label>
+            <div className="mb-3.5">
+                <label className="block text-xs text-gray-500 mb-1.5">FEATURED COVER</label>
 
-                <div style={{ border: '1px dashed #ddd', borderRadius: 8, padding: 14, textAlign: 'center' }} onClick={() => fileRef.current && fileRef.current.click()}>
+                <div className="border border-dashed border-gray-300 rounded-lg p-3.5 text-center cursor-pointer" onClick={() => fileRef.current && fileRef.current.click()}>
                     {cover ? (
-                        <Image src={cover.url} alt="cover" width={100} height={100} style={{ maxWidth: '100%', borderRadius: 6 }} />
+                        <Image src={cover.url} alt="cover" width={100} height={100} className="max-w-full rounded-md" />
                     ) : (
-                        <div style={{ color: '#999' }}>Click to upload or drag an image here</div>
+                        <div className="text-gray-400">Click to upload or drag an image here</div>
                     )}
-                    <input ref={fileRef} type="file" accept="image/*" onChange={onFileChange} style={{ display: 'none' }} />
+                    <input ref={fileRef} type="file" accept="image/*" onChange={onFileChange} className="hidden" />
                 </div>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                <button style={{ background: '#5d3911', color: '#fff', padding: '10px 12px', borderRadius: 8, border: 'none', cursor: 'pointer' }}>Publish to Archives</button>
-                <button style={{ background: '#f6f3ee', color: '#333', padding: '10px 12px', borderRadius: 8, border: '1px solid #e6e6e6', cursor: 'pointer' }}>Save as Draft</button>
+            <div className="flex flex-col gap-2.5">
+                <button onClick={handlePublish} className="bg-[#5d3911] text-white py-2.5 px-3 rounded-lg border-none cursor-pointer">Publish to Archives</button>
+                <button className="bg-[#f6f3ee] text-gray-700 py-2.5 px-3 rounded-lg border border-gray-200 cursor-pointer">Save as Draft</button>
             </div>
         </div>
     );
