@@ -3,7 +3,6 @@ import Header from "@editorjs/header";
 import Quote from "@cychann/editorjs-quote";
 
 import List from "@editorjs/list";
-import NestedList from "@editorjs/nested-list";
 
 import Checklist from "@editorjs/checklist";
 import NestedChecklist from "@calumk/editorjs-nested-checklist";
@@ -16,7 +15,7 @@ import Marker from "@editorjs/marker";
 import Underline from "@editorjs/underline";
 
 import ImageTool from "@editorjs/image";
-import LinkTool from "@editorjs/link";
+import { uploadEditorImage } from "@/helper/uploadEditorImage";
 
 export const EDITOR_TOOLS = {
   paragraph: {
@@ -30,7 +29,7 @@ export const EDITOR_TOOLS = {
     shortcut: "CMD+SHIFT+H",
     config: {
       levels: [1, 2, 3, 4, 5, 6],
-      defaultLevel: 2,
+      defaultLevel: 3,
     },
   },
 
@@ -41,11 +40,6 @@ export const EDITOR_TOOLS = {
 
   list: {
     class: List,
-    inlineToolbar: true,
-  },
-
-  nestedList: {
-    class: NestedList,
     inlineToolbar: true,
   },
 
@@ -78,19 +72,13 @@ export const EDITOR_TOOLS = {
     inlineToolbar: true,
   },
 
-  linkTool: {
-    class: LinkTool,
-    config: {
-      endpoint: "/api/editor/link",
-    },
-  },
-
   image: {
     class: ImageTool,
     config: {
-      endpoints: {
-        byFile: "/api/editor/upload-image",
-        byUrl: "/api/editor/fetch-image",
+      uploader: {
+        async uploadByFile(file) {
+          return await uploadEditorImage(file);
+        },
       },
     },
   },
