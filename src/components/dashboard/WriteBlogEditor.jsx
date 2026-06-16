@@ -6,11 +6,8 @@ import WriteBlogSidebar from "./WriteBlogSidebar";
 export default function WriteBlogEditor(){
     const editorRef = useRef(null);
     const handlePublish = async () => {
-        editorRef.current.save().then((outputData) => {
-            console.log('Article data: ', outputData)
-          }).catch((error) => {
-            console.log('Saving failed: ', error)
-          });
+        const content = await editorRef.current.save();
+        console.log(content)
       };
     return(
         <div className="flex gap-6 mt-5">

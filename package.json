@@ -9,11 +9,14 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@cychann/editorjs-quote": "^1.0.4",
     "@editorjs/editorjs": "^2.31.6",
+    "@editorjs/header": "^2.8.9",
     "@editorjs/paragraph": "^2.11.7",
     "@gravity-ui/icons": "^2.18.0",
     "@heroui/react": "^3.0.5",
     "@heroui/styles": "^3.0.5",
+    "@skchawala/editorjs-text-style": "^1.0.4",
     "jwt-decode": "^4.0.0",
     "lucide-react": "^1.17.0",
     "next": "16.2.6",

@@ -63,9 +63,33 @@ body {
 
 .ce-block__content,
 .ce-toolbar__content {
-  max-width: 100%;
+  max-width: 90%;
 }
 
 .codex-editor__redactor{
   padding-bottom: 30px !important;
+}
+
+h1.ce-header {
+  font-size: 3rem !important;      /* 48px */
+}
+
+h2.ce-header {
+  font-size: 2.25rem !important;   /* 36px */
+}
+
+h3.ce-header {
+  font-size: 1.875rem !important;  /* 30px */
+}
+
+h4.ce-header {
+  font-size: 1.5rem !important;    /* 24px */
+}
+
+h5.ce-header {
+  font-size: 1.25rem !important;   /* 20px */
+}
+
+h6.ce-header {
+  font-size: 1rem !important;      /* 16px */
 }
