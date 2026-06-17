@@ -1,10 +1,7 @@
 "use client"
-import { useState } from 'react';
 import Editor from '../Editor/Editor';
 
-export default function EditorPlaceholder({editorRef}) {
-    const [title, setTitle] = useState('');
-
+export default function EditorPlaceholder({editorRef,title,setTitle}) {
     return (
         <div className="bg-white rounded-lg p-5 shadow-sm">
             <input

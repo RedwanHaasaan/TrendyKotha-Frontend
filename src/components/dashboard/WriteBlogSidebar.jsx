@@ -1,36 +1,11 @@
 "use client"
 import Image from 'next/image';
-import { useState, useRef } from 'react';
 
-export default function WriteBlogSidebar({handlePublish}) {
-    const [category, setCategory] = useState('Essays');
-    const [tagInput, setTagInput] = useState('');
-    const [tags, setTags] = useState([]);
-    const [cover, setCover] = useState(null);
-    const fileRef = useRef(null);
-
-
-    function addTagFromInput() {
-        const raw = tagInput.trim();
-        if (!raw) return;
-        const parts = raw.split(',').map(t => t.trim()).filter(Boolean);
-        const next = Array.from(new Set([...tags, ...parts]));
-        setTags(next);
-        setTagInput('');
-    }
-
-    function removeTag(t) {
-        setTags(tags.filter(x => x !== t));
-    }
-
-    function onFileChange(e) {
-        const f = e.target.files && e.target.files[0];
-        if (f) setCover({ file: f, url: URL.createObjectURL(f) });
-    }
-
+export default function WriteBlogSidebar({handlePublish,category,setCategory,tags,
+    removeTag,tagInput,setTagInput,addTagFromInput,fileRef,cover,onFileChange}) {
     return (
         <div className="bg-white rounded-lg p-[18px] shadow-sm">
-            <h3 className="m-0 mb-3">Blog Settings</h3>
+            <h3 className="m-0 mb-3 bg-primary text-white p-2 text-center text-xl font-bold">Blog Settings</h3>
 
             <div className="mb-3">
                 <label className="block text-xs text-gray-500 mb-1.5">CATEGORY</label>
@@ -73,7 +48,7 @@ export default function WriteBlogSidebar({handlePublish}) {
                     {cover ? (
                         <Image src={cover.url} alt="cover" width={100} height={100} className="max-w-full rounded-md" />
                     ) : (
-                        <div className="text-gray-400">Click to upload or drag an image here</div>
+                        <div className="text-gray-400 lg:min-h-26 flex justify-center items-center">Click to upload or drag an image here</div>
                     )}
                     <input ref={fileRef} type="file" accept="image/*" onChange={onFileChange} className="hidden" />
                 </div>
