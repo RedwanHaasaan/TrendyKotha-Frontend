@@ -16,7 +16,6 @@ export default function DashboardPage() {
           const profileData = await getProfile(user._id);
           if (profileData.success) {
             setProfile(profileData.profile);
-            console.log(profileData.profile);
           }
         } catch (error) {
           console.error("Error fetching profile:", error);

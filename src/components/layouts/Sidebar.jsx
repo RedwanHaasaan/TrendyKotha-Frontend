@@ -143,7 +143,7 @@ export default function Sidebar({
         <button
           onClick={handleLogout}
           disabled={isLoggingOut}
-          className={`w-full flex items-center ${
+          className={`w-full flex items-center cursor-pointer ${
             isCollapsed ? "justify-center px-2" : "gap-3 px-4"
           } py-3 rounded-lg text-[#5b4a3a] hover:bg-red-50 hover:text-red-600 transition-colors disabled:opacity-50`}
           title={isCollapsed ? "Logout" : undefined}

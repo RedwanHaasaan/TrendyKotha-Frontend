@@ -27,10 +27,10 @@ export default function Editor({editorRef}) {
     initEditor();
 
     return () => {
-      if (editorRef.current?.destroy) {
-        editor?.current.destroy();
-        editorRef.current = null;
+      if (editor?.destroy) {
+        editor?.destroy();
       }
+      editorRef.current = null;
     };
   }, [editorRef]);
 
