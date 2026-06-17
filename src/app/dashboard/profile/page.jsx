@@ -16,6 +16,7 @@ import {
   User,
   ShieldAlert
 } from "lucide-react";
+import { FaXTwitter } from "react-icons/fa6";
 import { getProfile } from "@/services/profile";
 import { LogoGithub, LogoLinkedin } from "@gravity-ui/icons";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
@@ -228,7 +229,7 @@ export default function ProfilePage() {
                             className="flex items-center justify-center w-10 h-10 rounded-xl bg-[#f8f3eb] text-[#9c682f] border border-[#e5ddd0]/60 hover:bg-[#9c682f] hover:text-white transition-all duration-300 hover:-translate-y-0.5"
                             title="Twitter"
                           >
-                            <Twitter size={18} />
+                            <FaXTwitter />
                           </a>
                         ) : null}
 
